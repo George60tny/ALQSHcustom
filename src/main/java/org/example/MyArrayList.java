@@ -39,6 +39,7 @@ public class MyArrayList {
     }
 
     public int size() {
+
         return size;
     }
 
