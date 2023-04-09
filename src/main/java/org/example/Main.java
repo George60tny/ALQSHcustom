@@ -3,7 +3,7 @@ package org.example;
 public class Main {
     public static void main(String[] args) {
         System.out.println("MyArrayList");
-        MyArrayList arrayList = new MyArrayList();
+        MyArrayList<String> arrayList = new MyArrayList<>();
 
         // add
         arrayList.add("a");
@@ -26,9 +26,8 @@ public class Main {
         arrayList.clear();
         System.out.println(arrayList.size()); // 0
 
-
         System.out.println("MyLinkedList");
-        MyLinkedList linkedList = new MyLinkedList();
+        MyLinkedList<String> linkedList = new MyLinkedList<>();
 
         // add
         linkedList.add("a");
@@ -51,9 +50,8 @@ public class Main {
         linkedList.clear();
         System.out.println(linkedList.size()); // 0
 
-
         System.out.println("MyQueue");
-        MyQueue queue = new MyQueue();
+        MyQueue<String> queue = new MyQueue<>();
 
         // add
         queue.add("a");
@@ -74,9 +72,8 @@ public class Main {
         queue.clear();
         System.out.println(queue.size()); // 0
 
-
         System.out.println("MyStack");
-        MyStack stack = new MyStack();
+        MyStack<String> stack = new MyStack<>();
 
         // push
         stack.push("a");
@@ -102,31 +99,28 @@ public class Main {
         stack.clear();
         System.out.println(stack.size()); // 0
 
-
-
         System.out.println("MyHashMap");
-        MyLinkedList hashMap = new MyLinkedList();
+        MyHashMap<String, String> hashMap = new MyHashMap<>();
 
-        // add
-        hashMap.add("a");
-        hashMap.add("b");
-        hashMap.add("c");
+        // put
+        hashMap.put("a", "1");
+        hashMap.put("b", "2");
+        hashMap.put("c", "3");
 
         // get
-        System.out.println(hashMap.get(0)); // a
-        System.out.println(hashMap.get(1)); // b
-        System.out.println(hashMap.get(2)); // c
+        System.out.println(hashMap.get("a")); // 1
+        System.out.println(hashMap.get("b")); // 2
+        System.out.println(hashMap.get("c")); // 3
 
         // size
         System.out.println(hashMap.size()); // 3
 
         // remove
-        hashMap.remove(1);
-        System.out.println(hashMap.get(1)); // c
+        hashMap.remove("b");
+        System.out.println(hashMap.get("b")); // null
 
         // clear
         hashMap.clear();
         System.out.println(hashMap.size()); // 0
-
     }
 }

@@ -1,27 +1,34 @@
 package org.example;
 
-public class MyLinkedList {
-    private Node head;
-    private Node tail;
+public class MyLinkedList<T> {
+    private Node<T> head;
+    private Node<T> tail;
     private int size;
 
-    private static class Node {
-        Object value;
-        Node next;
-        Node prev;
+    private static class Node<T> {
+        T value;
+        Node<T> prev;
+        Node<T> next;
 
-        Node(Object value) {
+        Node(T value) {
             this.value = value;
         }
     }
 
-    public void add(Object value) {
-        Node newNode = new Node(value);
-        if (size == 0) {
-            head = tail = newNode;
+    public MyLinkedList() {
+        head = null;
+        tail = null;
+        size = 0;
+    }
+
+    public void add(T value) {
+        Node<T> newNode = new Node<>(value);
+        if (tail == null) {
+            head = newNode;
+            tail = newNode;
         } else {
-            tail.next = newNode;
             newNode.prev = tail;
+            tail.next = newNode;
             tail = newNode;
         }
         size++;
@@ -32,32 +39,29 @@ public class MyLinkedList {
             throw new IndexOutOfBoundsException();
         }
 
-        Node current = getNode(index);
-        if (current.prev != null) {
-            current.prev.next = current.next;
-        } else {
-            head = current.next;
+        Node<T> currentNode = head;
+        for (int i = 0; i < index; i++) {
+            currentNode = currentNode.next;
         }
 
-        if (current.next != null) {
-            current.next.prev = current.prev;
+        if (currentNode.prev != null) {
+            currentNode.prev.next = currentNode.next;
         } else {
-            tail = current.prev;
+            head = currentNode.next;
+        }
+
+        if (currentNode.next != null) {
+            currentNode.next.prev = currentNode.prev;
+        } else {
+            tail = currentNode.prev;
         }
 
         size--;
     }
 
-    private Node getNode(int index) {
-        Node current = head;
-        for (int i = 0; i < index; i++) {
-            current = current.next;
-        }
-        return current;
-    }
-
     public void clear() {
-        head = tail = null;
+        head = null;
+        tail = null;
         size = 0;
     }
 
@@ -65,10 +69,16 @@ public class MyLinkedList {
         return size;
     }
 
-    public Object get(int index) {
+    public T get(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
-        return getNode(index).value;
+
+        Node<T> currentNode = head;
+        for (int i = 0; i < index; i++) {
+            currentNode = currentNode.next;
+        }
+
+        return currentNode.value;
     }
 }

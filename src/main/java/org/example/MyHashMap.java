@@ -1,31 +1,32 @@
 package org.example;
 
-public class MyHashMap {
-    private Node[] buckets;
+public class MyHashMap<K, V> {
+    private Node<K, V>[] buckets;
     private int size;
 
-    private static class Node {
-        Object key;
-        Object value;
-        Node next;
+    private static class Node<K, V> {
+        K key;
+        V value;
+        Node<K, V> next;
 
-        Node(Object key, Object value) {
+        Node(K key, V value) {
             this.key = key;
             this.value = value;
         }
     }
 
+    @SuppressWarnings("unchecked")
     public MyHashMap() {
-        buckets = new Node[16];
+        buckets = (Node<K, V>[]) new Node[16];
         size = 0;
     }
 
-    public void put(Object key, Object value) {
+    public void put(K key, V value) {
         int index = getIndex(key);
-        Node current = buckets[index];
+        Node<K, V> current = buckets[index];
 
         if (current == null) {
-            buckets[index] = new Node(key, value);
+            buckets[index] = new Node<>(key, value);
             size++;
         } else {
             while (true) {
@@ -34,7 +35,7 @@ public class MyHashMap {
                     break;
                 }
                 if (current.next == null) {
-                    current.next = new Node(key, value);
+                    current.next = new Node<>(key, value);
                     size++;
                     break;
                 }
@@ -43,9 +44,9 @@ public class MyHashMap {
         }
     }
 
-    public void remove(Object key) {
+    public void remove(K key) {
         int index = getIndex(key);
-        Node current = buckets[index];
+        Node<K, V> current = buckets[index];
 
         if (current != null) {
             if (current.key.equals(key)) {
@@ -65,7 +66,7 @@ public class MyHashMap {
     }
 
     public void clear() {
-        buckets = new Node[16];
+        buckets = (Node<K, V>[]) new Node[16];
         size = 0;
     }
 
@@ -73,9 +74,9 @@ public class MyHashMap {
         return size;
     }
 
-    public Object get(Object key) {
+    public V get(K key) {
         int index = getIndex(key);
-        Node current = buckets[index];
+        Node<K, V> current = buckets[index];
 
         while (current != null) {
             if (current.key.equals(key)) {
@@ -87,7 +88,7 @@ public class MyHashMap {
         return null;
     }
 
-    private int getIndex(Object key) {
+    private int getIndex(K key) {
         return Math.abs(key.hashCode()) % buckets.length;
     }
 }

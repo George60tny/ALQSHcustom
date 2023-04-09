@@ -1,40 +1,46 @@
 package org.example;
 import java.util.NoSuchElementException;
 
-
-public class MyStack {
-    private Node top;
+public class MyStack<T> {
+    private Node<T> top;
     private int size;
 
-    private static class Node {
-        Object value;
-        Node next;
+    private static class Node<T> {
+        T value;
+        Node<T> next;
 
-        Node(Object value) {
+        Node(T value) {
             this.value = value;
         }
     }
 
-    public void push(Object value) {
-        Node newNode = new Node(value);
+    public MyStack() {
+        top = null;
+        size = 0;
+    }
+
+    public void push(T value) {
+        Node<T> newNode = new Node<>(value);
         newNode.next = top;
         top = newNode;
         size++;
     }
 
     public void remove(int index) {
-        if (index >= 0 && index < size) {
-            if (index == 0) {
-                top = top.next;
-            } else {
-                Node current = top;
-                for (int i = 0; i < index - 1; i++) {
-                    current = current.next;
-                }
-                current.next = current.next.next;
-            }
-            size--;
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
         }
+
+        if (index == 0) {
+            top = top.next;
+        } else {
+            Node<T> currentNode = top;
+            for (int i = 0; i < index - 1; i++) {
+                currentNode = currentNode.next;
+            }
+            currentNode.next = currentNode.next.next;
+        }
+        size--;
     }
 
     public void clear() {
@@ -46,18 +52,19 @@ public class MyStack {
         return size;
     }
 
-    public Object peek() {
-        if (size == 0) {
+    public T peek() {
+        if (top == null) {
             throw new NoSuchElementException();
         }
         return top.value;
     }
 
-    public Object pop() {
-        if (size == 0) {
+    public T pop() {
+        if (top == null) {
             throw new NoSuchElementException();
         }
-        Object value = top.value;
+
+        T value = top.value;
         top = top.next;
         size--;
         return value;

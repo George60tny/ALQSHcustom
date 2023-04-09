@@ -1,24 +1,30 @@
 package org.example;
-import java.util.NoSuchElementException;
 
-public class MyQueue {
-    private Node head;
-    private Node tail;
+public class MyQueue<T> {
+    private Node<T> head;
+    private Node<T> tail;
     private int size;
 
-    private static class Node {
-        Object value;
-        Node next;
+    private static class Node<T> {
+        T value;
+        Node<T> next;
 
-        Node(Object value) {
+        Node(T value) {
             this.value = value;
         }
     }
 
-    public void add(Object value) {
-        Node newNode = new Node(value);
-        if (size == 0) {
-            head = tail = newNode;
+    public MyQueue() {
+        head = null;
+        tail = null;
+        size = 0;
+    }
+
+    public void add(T value) {
+        Node<T> newNode = new Node<>(value);
+        if (tail == null) {
+            head = newNode;
+            tail = newNode;
         } else {
             tail.next = newNode;
             tail = newNode;
@@ -27,7 +33,8 @@ public class MyQueue {
     }
 
     public void clear() {
-        head = tail = null;
+        head = null;
+        tail = null;
         size = 0;
     }
 
@@ -35,23 +42,24 @@ public class MyQueue {
         return size;
     }
 
-    public Object peek() {
-        if (size == 0) {
-            throw new NoSuchElementException();
+    public T peek() {
+        if (head == null) {
+            return null;
         }
         return head.value;
     }
 
-    public Object poll() {
-        if (size == 0) {
-            throw new NoSuchElementException();
+    public T poll() {
+        if (head == null) {
+            return null;
         }
-        Object value = head.value;
+
+        T value = head.value;
         head = head.next;
-        size--;
-        if (size == 0) {
+        if (head == null) {
             tail = null;
         }
+        size--;
         return value;
     }
 }
